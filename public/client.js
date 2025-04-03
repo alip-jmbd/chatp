@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const socket = io(); // Hubungkan ke server Socket.IO
+    console.log('Attempting to connect Socket.IO...'); 
 
     // Elemen UI
     const usernameContainer = document.getElementById('username-container');
@@ -152,6 +153,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Handle koneksi ulang (jika server restart atau koneksi putus sementara)
     socket.on('connect', () => {
+    console.log('>>> TEST: Socket.IO Client Connected! Socket ID:', socket.id);
+    alert('Berhasil terhubung ke server!');
         console.log('Terhubung kembali ke server.');
         // Jika sebelumnya sudah punya username, coba set ulang
         // Perlu penanganan state yang lebih baik jika ingin otomatis join ulang
@@ -168,6 +171,16 @@ document.addEventListener('DOMContentLoaded', () => {
             usernameContainer.style.display = 'block';
             usernameError.textContent = 'Koneksi terhubung. Silakan masukkan nama pengguna.';
         }
+    });
+
+    socket.on('serverSaysHello', (data) => {
+    console.log('>>> TEST: Message from server:', data.message);
+    alert(`Server menyapa: ${data.message}`); // Tampilkan popup lain
+    });
+
+    socket.on('connect_error', (err) => {
+    console.error('>>> TEST: Socket.IO Connection Error:', err);
+    alert(`Gagal terhubung: ${err.message}`); // Tampilkan error jika koneksi gagal
     });
 
     socket.on('disconnect', () => {

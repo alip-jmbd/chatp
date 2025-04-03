@@ -58,6 +58,8 @@ loadChatHistory();
 
 // --- Logika Socket.IO ---
 io.on('connection', (socket) => {
+    console.log(`>>> TEST CONNECTION ESTABLISHED: Socket ID ${socket.id}`);
+    socket.emit('serverSaysHello', { message: `Connected successfully, your ID is ${socket.id}` });
     console.log(`User connected: ${socket.id}`);
     let currentUsername = null;
 
